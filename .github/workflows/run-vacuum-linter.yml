@@ -26,7 +26,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: html-report
-        path: ~/html-report.html
+        path: ~/html-report-rc5.html
     
     - name: Baixar o report
       uses: actions/download-artifact@v4
