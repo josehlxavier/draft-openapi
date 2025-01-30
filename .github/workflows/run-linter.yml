@@ -1,0 +1,22 @@
+name: Criar report de alterações realizadas
+on:
+  pull_request_target: 
+    types: [opened, edited, closed, reopened]
+  
+jobs:
+  baixar-repo:
+    runs-on: ubuntu-latest
+    name: PR Check Dependencies
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        token: ${{secrets.VACUUM_TOKEN}}
+    
+    - name: setup go
+      uses: actions/setup-go@v5
+      with:
+        go-version: 'stable'
+    
+    - name: executar o vacuum com GO
+      run: 'go run github.com/daveshanley/vacuum@latest html-report swagger-apis/automatic-payments/2.0.0-rc.1.yml '
