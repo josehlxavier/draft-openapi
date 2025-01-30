@@ -11,8 +11,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        ref: ${{github.event.pull_request.head.ref}}
-        repository: ${{github.event.pull_request.head.repo.full_name}}
+        ref: ${{github.event.pull_request.head.sha}}
         token: ${{secrets.VACUUM_TOKEN}}
     
     - name: setup go
