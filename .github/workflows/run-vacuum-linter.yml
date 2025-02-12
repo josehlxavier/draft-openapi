@@ -20,7 +20,7 @@ jobs:
         go-version: 'stable'
     #Quando executar, trocar o caminho do arquivo para o arquivo que está sendo enviado
     - name: executar o vacuum com GO
-      run: 'go run github.com/daveshanley/vacuum@latest html-report swagger-apis/automatic-payments/2.0.0-rc.2.yml ~/html-report-quality.html'
+      run: 'go run github.com/daveshanley/vacuum@latest html-report swagger-apis/automatic-payments/2.0.0-rc.1.yml ~/html-report-quality.html'
 
     - name: armazenar o html de saida
       uses: actions/upload-artifact@v4
@@ -42,7 +42,7 @@ jobs:
       run: 'npm i -g @pb33f/openapi-changes'
 
     - name: Executar o diff entre as versões
-      run: 'openapi-changes html-report swagger-apis/automatic-payments/2.0.0-beta.1.yml swagger-apis/automatic-payments/2.0.0-rc.2.yml'
+      run: 'openapi-changes html-report swagger-apis/automatic-payments/1.0.0.yml swagger-apis/automatic-payments/2.0.0-rc.1.yml'
     
     - name: armazenar o html de saida diff
       uses: actions/upload-artifact@v4
