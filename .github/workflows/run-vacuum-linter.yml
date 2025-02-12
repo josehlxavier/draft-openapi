@@ -1,0 +1,56 @@
+name: Criar report de alterações realizadas
+on:
+  pull_request: 
+    types: [opened, edited, synchronize, reopened]
+  
+jobs:
+  baixar-repo:
+    runs-on: ubuntu-latest
+    name: PR Check Dependencies
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        ref: ${{github.event.pull_request.head.sha}}
+        token: ${{secrets.VACUUM_TOKEN}}
+    
+    - name: setup go
+      uses: actions/setup-go@v5
+      with:
+        go-version: 'stable'
+    #Quando executar, trocar o caminho do arquivo para o arquivo que está sendo enviado
+    - name: executar o vacuum com GO
+      run: 'go run github.com/daveshanley/vacuum@latest html-report swagger-apis/automatic-payments/2.0.0-rc.1.yml ~/html-report-quality.html'
+
+    - name: armazenar o html de saida
+      uses: actions/upload-artifact@v4
+      with:
+        name: html-report-quality
+        path: ~/html-report-quality.html
+    
+    - name: Baixar o report
+      uses: actions/download-artifact@v4
+      with:
+        name: html-report-quality
+
+    - name: Setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: latest
+      
+    - name: Setup openapi-changes
+      run: 'npm i -g @pb33f/openapi-changes'
+
+    - name: Executar o diff entre as versões
+      run: 'openapi-changes html-report swagger-apis/automatic-payments/2.0.0-beta.1.yml swagger-apis/automatic-payments/2.0.0-rc.1.yml ~/html-report-diff.html'
+    
+    - name: armazenar o html de saida diff
+      uses: actions/upload-artifact@v4
+      with:
+        name: html-report-diff
+        path: ~/html-report-diff.html
+    
+    - name: Baixar o report diff
+      uses: actions/download-artifact@v4
+      with:
+        name: html-report-diff
