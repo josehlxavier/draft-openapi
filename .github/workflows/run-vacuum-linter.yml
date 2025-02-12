@@ -42,13 +42,13 @@ jobs:
       run: 'npm i -g @pb33f/openapi-changes'
 
     - name: Executar o diff entre as versões
-      run: 'openapi-changes html-report swagger-apis/automatic-payments/2.0.0-beta.1.yml swagger-apis/automatic-payments/2.0.0-rc.2.yml ~/html-report-diff.html'
+      run: 'openapi-changes html-report swagger-apis/automatic-payments/2.0.0-beta.1.yml swagger-apis/automatic-payments/2.0.0-rc.2.yml'
     
     - name: armazenar o html de saida diff
       uses: actions/upload-artifact@v4
       with:
         name: html-report-diff
-        path: ~/html-report-diff.html
+        path: ./report.html
     
     - name: Baixar o report diff
       uses: actions/download-artifact@v4
